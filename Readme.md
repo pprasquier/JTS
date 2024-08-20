@@ -25,14 +25,14 @@ Ensure the following applications are installed on your computer:
 ## Clone the source repository
 Download or clone the content from [GitHub](https://github.com/pprasquier/JTS) into a new local repository
 
-## Install Python dependencies
-``` Terminal
-poetry update
-```
-
 ## Activate the Poetry environment
 ``` Terminal
 poetry shell
+```
+
+## Install Python dependencies
+``` Terminal
+poetry update
 ```
 
 ## Environment variables
@@ -103,7 +103,7 @@ The default settings will use OpenAI's api for all AI jobs. In order to change t
 ## Launching the app
 Launch a terminal from the root of the application and run:
  ```Terminal
- python3 jts.py
+ python jts.py
  ```
 
 ## First-Time Setup
