@@ -1,0 +1,104 @@
+[
+    {
+        "type": "Prefy",
+        "key": "deactivate_setting_file",
+        "description": "When set to true, this file is not taken into account. Use it to easily juggle through different settings configurations.",
+        "value": false
+    },
+    {
+        "type": "Features",
+        "key": "use_airtable",
+        "description": "Should a connection to Airtable be made",
+        "value": false
+    },
+    {
+        "type": "Features",
+        "key": "use_airtable_knowledge",
+        "description": "Is Airtable set up to store knowledge details",
+        "value": false
+    },
+    {
+        "type": "Features",
+        "key": "use_airtable_resume",
+        "description": "Is Airtable set up to store resume details",
+        "value": false
+    },
+    {
+        "type": "Airtable",
+        "key": "airtable_base_id",
+        "description": "Identification of the Airtable base containing job postings",
+        "value": null
+    },
+    {
+        "type": "Airtable",
+        "key": "job_table_id",
+        "description": "Identification of the table containing job postings",
+        "value": null
+    },
+    {
+        "type": "Airtable",
+        "key": "translation_table_id",
+        "description": "Identification of the table containing translations/versions",
+        "value": null
+    },
+    {
+        "type": "Airtable",
+        "key": "parsing_view_id",
+        "description": "Airtable id of the view containing the job postings to be parsed",
+        "value": null
+    },
+    {
+        "type": "Airtable_Table",
+        "key": "individual_table_id",
+        "description": "Identification of the table containing Indiviuals",
+        "value": null
+    },
+    {
+        "type": "Airtable_Table_Resume",
+        "key": "language_table_id",
+        "description": "Identification of the table containing Languages",
+        "value": null
+    },
+    {
+        "type": "Airtable_Table_Resume",
+        "key": "experience_table_id",
+        "description": "Identification of the table containing Experiences",
+        "value": null
+    },
+    {
+        "type": "Airtable_Table_Resume",
+        "key": "task_table_id",
+        "description": "Identification of the table containing Tasks",
+        "value": null
+    },
+    {
+        "type": "Airtable_Table_Resume",
+        "key": "skill_table_id",
+        "description": "Identification of the table containing Skills",
+        "value": null
+    },
+    {
+        "type": "Airtable_Table_Resume",
+        "key": "certification_table_id",
+        "description": "Identification of the table containing Certifications",
+        "value": null
+    },
+    {
+        "type": "Airtable_Table_Knowledge",
+        "key": "knowledge_table_id",
+        "description": "Identification of the table containing Knowledge",
+        "value": null
+    },
+    {
+        "type": "Airtable_View_Knowledge",
+        "key": "knowledge_view_id",
+        "description": "Id of the view from which Knowledge is to be retrieved",
+        "value": null
+    },
+    {
+        "type": "Airtable",
+        "key": "airtable_individual_id",
+        "description": "Id of the applicant in Airtable (when Airtable is used for different applicants). ",
+        "value": null
+    }
+]

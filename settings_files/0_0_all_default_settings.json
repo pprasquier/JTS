@@ -1,0 +1,939 @@
+[
+    {
+        "type":"Prefy",
+        "key": "deactivate_setting_file",
+        "description": "When set to true, this file is not taken into account. Use it to easily juggle through different settings configurations.",
+        "value": false
+    },
+    {
+        "type":"Embeddings",
+        "key":"resume_dir_path",
+        "description":"Parent path to the folder where resume embeddings are stored.",
+        "value":"private\\embeddings\\resume\\"
+    },
+    {
+        "type":"Embeddings",
+        "key":"resume_sentence_transformer",
+        "description":"Name of the sentence transformer model used to parse the resume.",
+        "value":"all-mpnet-base-v2"
+    },
+    {
+        "type":"Embeddings",
+        "key":"resume_doc_type",
+        "description":"Type of documents for resumes.",
+        "value":"pdf"
+    },  
+    {
+        "type":"Embeddings",
+        "key":"knowledge_dir_path",
+        "description":"Parent path to the folder where knowledge embeddings are stored.",
+        "value":"private\\embeddings\\knowledge\\"
+    },
+    {
+        "type":"Embeddings",
+        "key":"knowledge_sentence_transformer",
+        "description":"Name of the sentence transformer model used to parse the knowledge.",
+        "value":"all-mpnet-base-v2"
+    },
+    {
+        "type":"Embeddings",
+        "key":"knowledge_doc_type",
+        "description":"Type of documents for knowledges.",
+        "value":"csv"
+    },   
+    {
+       "type":"Embeddings",
+       "key":"input_dir",
+       "description" :"Name of the directories that store your new raw documents.",
+       "value":"input"
+    },
+    {
+        "type":"Embeddings",
+        "key":"processed_dir",
+        "description" :"Name of the directories that store the documents after they have been processed into the vector databases.",
+        "value":"processed"
+     },
+     {
+        "type":"Embeddings",
+        "key":"vector_dir",
+        "description" :"Name of the directories that store the embeddings vectors.",
+        "value":"vector"
+     },     
+    {
+        "type":"Models",
+        "key":"default_sentence_transformer",
+        "description":"Name of the default sentence_transformer model",
+        "value":"all-mpnet-base-v2"
+    },
+    {
+        "type":"JobPost",
+        "key":"job_post_dir",
+        "description":"Path to the folder where job post history is stored.",
+        "value":"private\\history"
+    },
+    {
+        "type":"Prompt",
+        "key":"job_parse_prompt",
+        "description":"Prompt to parse a job post.",
+        "value":"Parse the following job description into a specific and strict JSON format.  \n Do not add any node/attribute or change anything from the JSON format. \n Do not add anythng that is not in the input job description.  No prose. \n\nJOB DESCRIPTION:\n{job_description} \n\nOUTPUT FORMAT:\n{format_instructions} "
+    },
+    {
+        "type":"Models",
+        "key":"job_parse_base_url",
+        "description":"LLM model's url for parsing job posts. Leave blank to use OpenAI or insert your local server's URL.",
+        "value":null
+    },
+    {
+        "type":"Models",
+        "key":"job_parse_temperature",
+        "description":"Temperature of the model's response for parsing job posts.",
+        "value":0.1
+    },
+    {
+        "type":"Models",
+        "key":"job_parse_tokens",
+        "description":"Max # of tokens used to parse job posts.",
+        "value":2000
+    },
+    {
+        "type":"Models",
+        "key":"job_parse_timeout",
+        "description":"Timeout to use when making requests to OpenAI in ms.",
+        "value":180000
+    },
+    {
+        "type":"Models",
+        "key":"job_parse_model_name",
+        "description":"Name of the model used to parse job posts.",
+        "value":"gpt-3.5-turbo"
+    },
+    {
+        "type":"Node",
+        "key":"job_parse_node",
+        "description":"Node that identifies the content of a parsed job post in the history file. RESTRICTED (linked to code=do not update)",
+        "value":"job_characteristics",
+        "restricted":true 
+    },
+    {
+        "type":"Node",
+        "key":"job_post_node",
+        "description":"Node that identifies the content of a raw job post in the history file. RESTRICTED (linked to code=do not update)",
+        "value":"initial_job_post",
+        "restricted":true
+    },
+    {
+        "type":"Prompt",
+        "key":"job_classification_prompt",
+        "description":"Prompt to derive the salient points of a job post.",
+        "value":"Summarize and rephrase a list of the salient points of the following job post pertaining to the following categories into the provided JSON format, assign numeric score for each of the salient points by determining their importance for the job according to the factors defined below and the multiplier specific for their category. A higher score means that the point is more important. \n\n Do not introduce your response nor change the json format: just output the expected JSON list strictly.  No prose or explanation. \n\n FACTORS INCREASING THE IMPORTANCE OF A POINT:\n -Frequency of mentions \n-Quantity of words used to describe it\n-Specificity:Vague terms and concepts are given smaller importance.\n-Originality: Terms that are infrequent in job posts are considered more important.  \n\nCATEGORIES/MULTIPLIERS:Industry/4 | Product/3 | Required skills/2 | Company values/1.  \n\nJOB CHARACTERISTICS:\n{job_characteristics} \n\nOUTPUT FORMAT: \n{format_instructions} \n Adhere strictly to and do not include any node property that is not in the provided JSON format. In particular, start directly with the list of points without introducing them and do not create a node starting with 'noccurence'.  \n\n<example>\n{example}\n</example>",
+        "restricted":false
+    },
+    {
+        "type":"Prompt",
+        "key":"job_classification_example",
+        "description":"Path to a file containing examples of valid salient points.",
+        "value":"example_files\\salientpoints.json",
+        "restricted":false
+    },
+    {
+        "type":"Models",
+        "key":"job_classification_base_url",
+        "description":"LLM model's url for parsing job posts. Leave blank to use OpenAI or insert your local server's URL.",
+        "value":null
+    },
+    {
+        "type":"Models",
+        "key":"job_classification_temperature",
+        "description":"Temperature of the model's response for classifying job posts.",
+        "value":0
+    },
+    {
+        "type":"Models",
+        "key":"job_classification_tokens",
+        "description":"Max # of tokens used to classify job posts.",
+        "value":4000
+    },    
+    {
+        "type":"Models",
+        "key":"job_classification_timeout",
+        "description":"Timeout to use when making requests to OpenAI in ms.",
+        "value":180000
+    },
+    {
+        "type":"Models",
+        "key":"job_classification_model_name",
+        "description":"Name of the model used to classify job posts.",
+        "value":"gpt-3.5-turbo"
+    },    
+    {
+        "type":"Node",
+        "key":"job_classification_node",
+        "description":"Node that stores the salient points of the job post. RESTRICTED (linked to code=do not update)",
+        "value":"salient_points",
+        "restricted":true
+    },
+    {
+        "type":"Prompt",
+        "key":"insights_rag_prompt",
+        "description":"Prompt to look for relevant insights.",
+        "value":"Here is a point extracted from a job post: \n<job_point>\n{salient_point}\n</job_point> \n\n Look within my resume and knowledge base for illustrations of how I may address it and assign it a relevance score depending on how directly it addresses the underlying point: \n<resume>\n{resume}\n</resume>\n<knowledge>\n{kb}\n</knowledge> \n\n If you don't find anything significantly relevant, then do not invent: just leave it blank. If you do find one or multiple relevant experience/certification/language/answer/result/diploma, etc., write an example of how this insight could be included in a cover letter to address the underlying point. If the insight and messaging make sense in the context of a job applicadtion, then return them in the following format. No prose.\n<output_format>\n{format_instructions}\n</output_format>\n\n<example>\n{example}\n</example>",
+        "restricted":false
+    },
+    {
+        "type":"Prompt",
+        "key":"insights_rag_example",
+        "description":"Path to a file containing examples of valid insights.",
+        "value":"example_files\\insights.json",
+        "restricted":false
+    },
+    {
+        "type":"Models",
+        "key":"insights_rag_base_url",
+        "description":"LLM model's url for parsing job posts. Leave blank to use OpenAI or insert your local server's URL.",
+        "value":null
+    },
+    {
+        "type":"Models",
+        "key":"insights_rag_temperature",
+        "description":"Temperature of the model's response for generating insights out of the resume/knowledge base.",
+        "value":0.3
+    },
+    {
+        "type":"Models",
+        "key":"insights_rag_tokens",
+        "description":"Max # of tokens used for generating insights out of the resume/knowledge base.",
+        "value":2000
+    },
+    {
+        "type":"Models",
+        "key":"insights_rag_timeout",
+        "description":"Timeout to use when making requests to OpenAI in ms.",
+        "value":240000
+    },
+    {
+        "type":"Models",
+        "key":"insights_rag_model_name",
+        "description":"Name of the model used for generating insights out of the resume/knowledge base.",
+        "value":"gpt-3.5-turbo"
+    },
+    {
+        "type":"Node",
+        "key":"insights_rag_node",
+        "description":"Node that stores the insights relevant to a specific salient point. RESTRICTED (linked to code=do not update)",
+        "value":"insights",
+        "restricted":true
+    },
+    {
+        "type":"Models",
+        "key":"insights_rag_docs",
+        "description":"Number of documents returned by the insights_rag model.",
+        "value":6
+    },
+    {
+        "type":"Prompt",
+        "key":"quick_cl_prompt",
+        "description":"Prompt to generate a quick cover letter.",
+        "value":"Generate the content of a 350-word cover letter for the following job post using the embedded resume and knowledge base.\n Try to address the most important job posts' points (by order of decreasing importance: industry, product, requirements, company values) using only existing elements from the attached documents. If no relevant insight can be derived from the embedded documents, then skip this point: do not add any experience/certification/education/language that cannot be traced to the embedded documents.\nIf multiple insights may address the same point, optimize by increasing the diversity of contexts within the whole letter. E.g.: if two different point can be addressed by insights from experience X and experience Y, then use experience X for point 1 and experience Y for point 2. \nIf a recruiter's name is present in the offer, then use it in the salutation. Otherwise, keep a generic salutation. \n When addressing a point from the job post, do not repeat it directly in the cover letter, formulate it differently. E.g.: if the post mentions the requirement 'Must have a passion for AI', the messaging in the cover letter might be 'My interest for AI has led me to...'  \n\n Do not include header, footer, signature nor placeholders.  \n\n<job post>\n{input}\n</job post> \n\n{personal_connection} \n\n<context>\n{context}\n</context>\n\n<examples>\n{examples}\n</examples>",
+        "restricted":false
+    },
+    {
+        "type":"Models",
+        "key":"quick_cl_base_url",
+        "description":"LLM model's url for parsing job posts. Leave blank to use OpenAI or insert your local server's URL.",
+        "value":null
+    },
+    {
+        "type":"Models",
+        "key":"quick_cl_temperature",
+        "description":"Temperature of the model's response for generating quick_cl out of the resume/knowledge base.",
+        "value":0.3
+    },
+    {
+        "type":"Models",
+        "key":"quick_cl_tokens",
+        "description":"Max # of tokens used for generating quick_cl out of the resume/knowledge base.",
+        "value":2000
+    },
+    {
+        "type":"Models",
+        "key":"quick_cl_timeout",
+        "description":"Timeout to use when making requests to OpenAI in ms.",
+        "value":180000
+    },
+    {
+        "type":"Models",
+        "key":"quick_cl_model_name",
+        "description":"Name of the model used for generating quick_cl out of the resume/knowledge base.",
+        "value":"gpt-3.5-turbo"
+    },
+    {
+        "type":"LLM",
+        "key":"llm_api",
+        "description":"Which API should be used for LLM? Current options: ['ChatOpenAI','Ollama']. For LM Studio, set value to 'ChatOpenAI' and specify local base URLs",
+        "value":"ChatOpenAI",
+        "restricted":false
+    },
+    {
+        "type":"Embeddings",
+        "key":"combined_dir_path",
+        "description":"Parent path to the folder where combined embeddings are stored.",
+        "value":"private\\embeddings\\combined\\"
+    },
+    {
+        "type":"Embeddings",
+        "key":"combined_sentence_transformer",
+        "description":"Name of the sentence transformer model used to parse the combined embeddings (must be identical across all embeddings).",
+        "value":"all-mpnet-base-v2"
+    },
+    {
+        "type":"Embeddings",
+        "key":"combined_doc_type",
+        "description":"Type of documents for combined embeddings.",
+        "value":"misc"
+    },
+    {
+        "type":"Models",
+        "key":"quick_cl_rag_docs",
+        "description":"Number of documents returned by the quick_cl_rag model.",
+        "value":12
+    },
+    {
+        "type":"Applications",
+        "key":"root_application_dir_path",
+        "description":"Where job application files are stored.",
+        "value":"private\\applications\\"
+    },
+    {  
+        "type":"Applications",
+        "key":"root_application_temp_path",
+        "description":"Where temporary files for job application files are stored.",
+        "value":"private\\applications\\temp\\"          
+    },
+    {  
+        "type":"Templates",
+        "key":"cover_letter_template_path",
+        "description":"Template used to generate cover letters. Must be an HTML file",
+        "value":"private\\templates\\cover_letter_template.html"          
+    },
+    {  
+        "type":"Cover Letter",
+        "key":"cover_letter_file_prefix",
+        "description":"Prefix used to name the generated cover letters",
+        "value":"John Doe"          
+    },
+    {  
+        "type":"Cover Letter",
+        "key":"cover_letter_file_suffix",
+        "description":"Suffix used to name the generated cover letters",
+        "value":"CL"          
+    },
+    {
+        "type":"Models",
+        "key":"conversation_base_url",
+        "description":"LLM model's url for conversation. Leave blank to use OpenAI or insert your local server's URL.",
+        "value":null
+    },
+    {
+        "type":"Models",
+        "key":"conversation_timeout",
+        "description":"LLM model's url for conversation. Leave blank to use OpenAI or insert your local server's URL.",
+        "value":180000
+    },    
+    {
+        "type":"Models",
+        "key":"conversation_temperature",
+        "description":"Temperature of the model's response for conversation.",
+        "value":0.8
+    },
+    {
+        "type":"Models",
+        "key":"conversation_tokens",
+        "description":"Max # of tokens used for conversation.",
+        "value":2000
+    },
+    {
+        "type":"Models",
+        "key":"conversation_model_name",
+        "description":"Name of the model used for conversation.",
+        "value":"gpt-3.5-turbo"
+    },
+    {
+        "type":"Prompt",
+        "key":"conversation_prompt",
+        "description":"Prompt for conversation.",
+        "value":"The AI is an expert in job applications helping a human improve their application. When refining a cover letter, the AI will only use elements provided by the human or in the context. Don't tell me what you're doing: just update the cover letter applying the following comments and return it without any type of introduction. \n When rewriting, minimize repetitions of common expressions (e.g., 'ability', 'track record', 'experience', 'I', 'My', etc.) \n <comments>\n{input}\n</comments> \n\nNO PROSE \n\n Using the following context: \n <context>\n{history}\n</context>", 
+        "restricted":false
+    }  ,
+    {
+        "type":"History text",
+        "key":"blank_source_text",
+        "description":"Placeholder for the source URL in an asynchronous job post",
+        "value":"TBC"
+    },
+    {
+        "type":"History text",
+        "key":"blank_source_initial_post",
+        "description":"Placeholder for the initial job post in an asynchronous job post",
+        "value":"TBC"
+    },
+    {
+        "type":"Prompt",
+        "key":"generate_cover_letter_prompt",
+        "description":"Prompt to generate a cover letter based on the characteristics and salient points, insights.",
+        "value":"Using the following cover letters as basis: \n{examples}, \n\n you will write the content of an engaging 350-word cover letter for the following job post: \n<job_post>\n{job_post}\n</job_post>\n\n Additional to these cover letters, you can customize the new cover letter using the following specific details, giving priority to those with high relevance and points with high importance and mixing contexts: \n{personal_connection} \n<insights>\n{insights}\n</insights> \n\nOnce done, rephrase the generated text to: \n-Minimize repetitions of common expressions (e.g., 'ability', 'track record', 'experience', 'I', 'My', 'showcasing', etc.) \n -Avoid repeating ideas/points that are too similar \n -Use different phrasings/verbs than the ones of the job post.  \n\nDo not include header, footer, signature nor placeholders, angle brackets or backquotes.  No prose.  \n\n Following are rules on how to structure the cover letter: \n 1. Greetings/Salutation: if the name of the recruiter is available, start the letter with 'Dear [recruitername]', otherwise, 'Dear recruiting manager'. \n 2. Introduction: a relevant accomplishment/insight/characteristic that justifies why I am applying to the job and the mention of the job I'm applying to. \n 3. Two or three paraghaphs describing how my experience and insights address the job's requirements, the company's needs and the product's characteristics. Do not enter into too much details about the context of the insight but insist on the results obtained. \n 4. A conclusion/sumFy of my motivation and why I am a great fit for the job. No thanking. \n 5. A call to action to confirm the mutual fit during an interview. ",
+        "restricted":false
+    },
+    {
+        "type":"Models",
+        "key":"generate_cover_letter_base_url",
+        "description":"LLM model's url for parsing job posts. Leave blank to use OpenAI or insert your local server's URL.",
+        "value":null
+    },
+    {
+        "type":"Models",
+        "key":"generate_cover_letter_temperature",
+        "description":"Temperature of the model's response for generating generate_cover_letter out of the resume/knowledge base.",
+        "value":0.7
+    },
+    {
+        "type":"Models",
+        "key":"generate_cover_letter_tokens",
+        "description":"Max # of tokens used for generating generate_cover_letter out of the resume/knowledge base.",
+        "value":4096
+    },
+    {
+        "type":"Models",
+        "key":"generate_cover_letter_timeout",
+        "description":"Timeout to use when making requests to OpenAI in ms.",
+        "value":180000
+    },
+    {
+        "type":"Models",
+        "key":"generate_cover_letter_model_name",
+        "description":"Name of the model used for generating generate_cover_letter out of the resume/knowledge base.",
+        "value":"gpt-3.5-turbo"
+    },
+    {
+        "type":"Cover Letter",
+        "key":"cover_letter_examples_dir",
+        "description":"Directory to store examples of cover letters. Examples have to be txt files that only contain the content of the cover letter.",
+        "value":"private\\cover_letters"
+    },
+    {
+        "type":"Parsers",
+        "key":"parser_definition_file_path",
+        "description":"Path to the file storing the web parser definitions. Must be a .csv file",
+        "value":"web_parser_definitions.csv"
+    },
+    {
+        "type":"Features",
+        "key":"use_airtable",
+        "description":"Should a connection to Airtable be made",
+        "value":false
+    },    
+    {
+        "type":"Airtable",
+        "key":"airtable_base_id",
+        "description":"Identification of the Airtable base containing job postings",
+        "value":null
+    },
+    {
+        "type":"Airtable",
+        "key":"job_table_id",
+        "description":"Identification of the table containing job postings",
+        "value":null
+    },
+    {
+        "type":"Airtable",
+        "key":"translation_table_id",
+        "description":"Identification of the table containing translations/versions",
+        "value":null
+    },
+    {
+        "type":"Airtable",
+        "key":"translation_translation_field_name",
+        "description":"Name of the field storing the fields' translations in Airtable",
+        "value":"Translation"
+    },
+    {
+        "type":"Airtable",
+        "key":"translation_language_field_name",
+        "description":"Name of the field storing the fields' translations' language in Airtable",
+        "value":"Language"
+    },    {
+        "type":"Airtable",
+        "key":"translation_field_field_name",
+        "description":"Name of the field storing the  translations' fields in Airtable",
+        "value":"Field"
+    },
+    {
+        "type":"Airtable",
+        "key":"translation_linked_record_field_name",
+        "description":"Name of the field storing the  translations' linked records in Airtable",
+        "value":"Linked records list"
+    },
+    {
+        "type":"Airtable",
+        "key":"job_description_field_name",
+        "description":"Name of the field storing the job description in Airtable",
+        "value":"Full job description"
+    },
+    {
+        "type":"Airtable",
+        "key":"source_field_name",
+        "description":"Name of the field storing the url source of the job post in Airtable",
+        "value":"Source"
+    },
+    {
+        "type":"Airtable",
+        "key":"organization_field_name",
+        "description":"Name of the field storing the organization in Airtable",
+        "value":"Organization"
+    },
+    {
+        "type":"Airtable",
+        "key":"jts_id_field_name",
+        "description":"Name of the field storing the id of the JTS file in Airtable",
+        "value":"JTS_ID"
+    },
+    {
+        "type":"Airtable",
+        "key":"status_field_name",
+        "description":"Name of the field storing the status of the application in Airtable",
+        "value":"Status"
+    },
+    {
+        "type":"Airtable",
+        "key":"parsing_view_id",
+        "description":"Airtable id of the view containing the job postings to be parsed",
+        "value": null
+    },
+    {
+        "type":"Airtable",
+        "key":"for_parsing_status",
+        "description":"Status when the job description has to be parsed in JTS",
+        "value": "For interpretation"
+    },
+    {
+        "type":"Airtable",
+        "key":"imported_status",
+        "description":"Status when the job post has been imported into JTS",
+        "value": "Imported"
+    },
+    {
+        "type":"Airtable",
+        "key":"parsed_status",
+        "description":"Status when the job description has been parsed in JTS",
+        "value": "Parsed"
+    },
+    {
+        "type":"Airtable",
+        "key":"imported_status",
+        "description":"Status when the job post has been imported into JTS",
+        "value": "Imported"
+    },
+    {
+        "type":"Airtable",
+        "key":"insighted_status",
+        "description":"Status when insights have been generated in JTS",
+        "value": "Insighted"
+    },
+    {
+        "type":"Airtable",
+        "key":"salient_point_status",
+        "description":"Status when salient points have been generated in JTS",
+        "value": "Salient points"
+    },
+    {
+        "type":"Airtable",
+        "key":"quick_cl_status",
+        "description":"Status when a quick cover letter has been generated in JTS",
+        "value": "Quick cover letter"
+    },
+    {
+        "type":"Airtable",
+        "key":"full_cl_status",
+        "description":"Status when a full cover letter has been generated in JTS",
+        "value": "Full cover letter"
+    },
+    {
+        "type":"Airtable",
+        "key":"printed_cl_status",
+        "description":"Status when the cover letter has been saved into PDF",
+        "value": "Printed cover letter"
+    },
+    {
+        "type":"Features",
+        "key":"use_airtable_resume",
+        "description":"Is Airtable set up to store resume details",
+        "value":false
+    },
+    {
+        "type":"Airtable_Table",
+        "key":"individual_table_id",
+        "description":"Identification of the table containing Indiviuals",
+        "value":null
+    },
+    {
+        "type":"Airtable_Table_Resume",
+        "key":"language_table_id",
+        "description":"Identification of the table containing Languages",
+        "value":null
+    },
+    {
+        "type":"Airtable_Table_Resume",
+        "key":"experience_table_id",
+        "description":"Identification of the table containing Experiences",
+        "value":null
+    },    {
+        "type":"Airtable_Table_Resume",
+        "key":"task_table_id",
+        "description":"Identification of the table containing Tasks",
+        "value":null
+    },
+    {
+        "type":"Airtable_Table_Resume",
+        "key":"skill_table_id",
+        "description":"Identification of the table containing Skills",
+        "value":null
+    },
+    {
+        "type":"Airtable_Table_Resume",
+        "key":"certification_table_id",
+        "description":"Identification of the table containing Certifications",
+        "value":null
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"individual_full_name_field_name",
+        "description":"Name of the field storing name in Airtable's Individual table",
+        "value":"Full name"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"individual_email_field_name",
+        "description":"Name of the field storing email in Airtable's Individual table",
+        "value":"E-mail"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"individual_location_field_name",
+        "description":"Name of the field storing location in Airtable's Individual table",
+        "value":"Work authorizations"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"individual_summary_field_name",
+        "description":"Name of the field storing professional summary in Airtable's Individual table",
+        "value":"Summary"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"individual_phone_field_name",
+        "description":"Name of the field storing phone in Airtable's Individual table",
+        "value":"Phone"
+    }, 
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"individual_id_field_name",
+        "description":"Name of the field storing the Individual ID linking children elements to their individual in Airtable",
+        "value":"IndividualId"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_id_field_name",
+        "description":"Name of the field storing the Experience ID linking children elements to their experience in Airtable",
+        "value":"ExperienceId"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"language_name_field_name",
+        "description":"Name of the field storing Name of the language in Airtable's Language table",
+        "value":"Name"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"language_proficiency_field_name",
+        "description":"Name of the field storing Proficiency of the language in Airtable's Language table",
+        "value":"Level"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"certification_issuer_field_name",
+        "description":"Name of the field storing Issuer of certification in Airtable's Certification table",
+        "value":"Issuer"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"certification_name_field_name",
+        "description":"Name of the field storing Name of certification in Airtable's Certification table",
+        "value":"Certification"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_organization_field_name",
+        "description":"Name of the field storing Organization of experience in Airtable's Experience table",
+        "value":"Organization"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_type_field_name",
+        "description":"Name of the field storing Type of experience in Airtable's Experience table (Professional experience | Education | Personal projects)",
+        "value":"Type"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_url_field_name",
+        "description":"Name of the field storing URL of experience in Airtable's Experience table",
+        "value":"URL"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_startyear_field_name",
+        "description":"Name of the field storing Start year of experience in Airtable's Experience table",
+        "value":"Start year"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_end_year_field_name",
+        "description":"Name of the field storing End year of experience in Airtable's Experience table",
+        "value":"End year"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_startmonth_field_name",
+        "description":"Name of the field storing Start month of experience in Airtable's Experience table",
+        "value":"Start month"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_end_month_field_name",
+        "description":"Name of the field storing End month of experience in Airtable's Experience table",
+        "value":"End month"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_location_field_name",
+        "description":"Name of the field storing Location of experience in Airtable's Experience table",
+        "value":"Country"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_position_field_name",
+        "description":"Name of the field storing Position of experience in Airtable's Experience table",
+        "value":"Position"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_organizationdetails_field_name",
+        "description":"Name of the field storing Organization details of experience in Airtable's Experience table",
+        "value":"Organization details"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"skill_name_field_name",
+        "description":"Name of the field storing Name of skil in Airtable's Skill table",
+        "value":"Skill"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"task_description_field_name",
+        "description":"Name of the field storing Description of task in Airtable's Task table",
+        "value":"Task"
+    },
+    {
+        "type":"Airtable_Field_Resume",
+        "key":"experience_order_field_name",
+        "description":"Name of the field storing Order, to sort experiences",
+        "value":"Order"
+    },
+    {
+        "type":"Resume",
+        "key":"resume_data_filepath",
+        "description":"Where the JSON resume data is stored and retrieved from",
+        "value":"private\\resume_data\\resume.json"
+    },
+    {
+        "type":"Resume",
+        "key":"resume_template",
+        "description":"Template of the resume. Must be a valid Jinja HTML file",
+        "value":"private\\templates\\resume_template.html"        
+    },    {
+        "type":"Resume",
+        "key":"resume_template_with_job_post",
+        "description":"Template of the resume including contents of the job post. Must be a valid Jinja HTML file",
+        "value":"private\\templates\\resume_template_with_job_post.html"        
+    },
+    {
+        "type":"Resume",
+        "key":"anonymized_resume_template",
+        "description":"Template of the anonymized resume. Used to limit the size and private data of the embeddings. Must be a valid Jinja HTML file",
+        "value":"private\\templates\\resume_template_anonymized.html"        
+    },     
+    {
+        "type":"Summary",
+        "key":"summary_example_dir",
+        "description":"Where example summary files are stored",
+        "value":"private\\summaries"
+    },    {
+        "type":"Prompt",
+        "key":"generate_summary_prompt",
+        "description":"Prompt to generate a cover letter based on the characteristics and salient points, insights.",
+        "value":"Combine the following examples \n{examples}\n into a 3-sentence resume summary, which will eventually land at the top of my resume. Include elements congruent and relevant with the following job post: \n<job_post>\n{input}\n</job_post> \n\n By using the following context: \n\n<context>\n{context}\n</context> \n\n-Do not include the name of the recruiting organization in the summary.\n-Only include information that can be backed by the provided context.",
+        "restricted":false
+    },
+    {
+        "type":"Models",
+        "key":"generate_summary_base_url",
+        "description":"LLM model's url for parsing job posts. Leave blank to use OpenAI or insert your local server's URL.",
+        "value":null
+    },
+    {
+        "type":"Models",
+        "key":"generate_summary_temperature",
+        "description":"Temperature of the model's response for generating summary.",
+        "value":0.7
+    },
+    {
+        "type":"Models",
+        "key":"generate_summary_tokens",
+        "description":"Max # of tokens used for generating a summary.",
+        "value":150
+    },
+    {
+        "type":"Models",
+        "key":"generate_summary_timeout",
+        "description":"Timeout to use when making requests to OpenAI in ms.",
+        "value":180000
+    },
+    {
+        "type":"Models",
+        "key":"generate_summary_model_name",
+        "description":"Name of the model used for generating a summary.",
+        "value":"gpt-3.5-turbo"
+    },
+    {
+        "type":"Models",
+        "key":"summary_rag_docs",
+        "description":"Number of documents returned by the summary_rag model.",
+        "value":12
+    },
+    {
+        "type":"Features",
+        "key":"use_airtable_knowledge",
+        "description":"Is Airtable set up to store knowledge details",
+        "value":false
+    },   {
+        "type":"Airtable_Table_Knowledge",
+        "key":"knowledge_table_id",
+        "description":"Identification of the table containing Knowledge",
+        "value":null
+    },
+    {
+        "type":"Airtable_Field_Knowledge",
+        "key":"knowledge_question_field_name",
+        "description":"Name of the field storing Question in Airtable's Knowledge table",
+        "value":"Question"
+    },
+    {
+        "type":"Airtable_Field_Knowledge",
+        "key":"knowledge_answer_field_name",
+        "description":"Name of the field storing Answer in Airtable's Knowledge table",
+        "value":"Answer"
+    },
+    {
+        "type":"Airtable_View_Knowledge",
+        "key":"knowledge_view_id",
+        "description":"Id of the view from which Knowledge is to be retrieved",
+        "value":null
+    },{
+        "type":"Airtable",
+        "key":"airtable_individual_id",
+        "description":"Id of the applicant in Airtable (when Airtable is used for different applicants). ",
+        "value":null
+    },
+    {
+        "type":"Temp",
+        "key":"temp_dir",
+        "description":"Path to the temp directory ",
+        "value":"temp"
+    },
+    {  
+        "type":"Resume",
+        "key":"resume_file_prefix",
+        "description":"Prefix used to name the generated resumes",
+        "value":"Resume"          
+    },
+    {  
+        "type":"Resume",
+        "key":"default_resume",
+        "description":"Value of the setting storing the path to the default resume template",
+        "value":"resume_template" 
+   },
+   {  
+       "type":"Resume",
+       "key":"generic_resume_dir",
+       "description":"Directory to store generic resumes",
+       "value":"private\\resumes" 
+  },
+  {
+    "type":"Models",
+    "key":"vector_communication_base_url",
+    "description":"LLM model's url for communicating with vector. Leave blank to use OpenAI or insert your local server's URL.",
+    "value":null
+},
+{
+    "type":"Models",
+    "key":"vector_communication_temperature",
+    "description":"Temperature of the model's response for communicating with vector.",
+    "value":0.1
+},
+{
+    "type":"Models",
+    "key":"vector_communication_tokens",
+    "description":"Max # of tokens used to communicate with vector.",
+    "value":2000
+},
+{
+    "type":"Models",
+    "key":"vector_communication_timeout",
+    "description":"Timeout to use when making requests to OpenAI in ms.",
+    "value":180000
+},
+{
+    "type":"Models",
+    "key":"vector_communication_model_name",
+    "description":"Name of the model used to communicate with vector.",
+    "value":"gpt-3.5-turbo"
+},
+  {
+    "type":"Models",
+    "key":"enrich_base_url",
+    "description":"LLM model's url for looking for external information. Leave blank to use OpenAI or insert your local server's URL.",
+    "value":null
+},
+{
+    "type":"Models",
+    "key":"enrich_temperature",
+    "description":"Temperature of the model's response for looking for external information.",
+    "value":0.1
+},
+{
+    "type":"Models",
+    "key":"enrich_tokens",
+    "description":"Max # of tokens used to look for external information.",
+    "value":2000
+},
+{
+    "type":"Models",
+    "key":"enrich_timeout",
+    "description":"Timeout to use when making requests to OpenAI in ms.",
+    "value":180000
+},
+{
+    "type":"Models",
+    "key":"enrich_model_name",
+    "description":"Name of the model used to look for external information.",
+    "value":"gpt-3.5-turbo"
+}        
+]

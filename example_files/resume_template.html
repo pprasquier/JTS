@@ -1,0 +1,150 @@
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title></title>
+	<style type="text/css">
+		@page {
+			size: 8.5in 11in;
+			margin: 0.8in;
+		}
+		body{
+			background-color:white;
+			font-family: Arial, sans-serif;
+		}
+
+		p {
+			line-height: 100%;
+			margin-bottom: 0in;
+			page-break-before: auto
+		}
+
+		.centered {
+			text-align: center
+		}
+
+		h1 {
+			margin-bottom: 0in;
+			font-size: 18pt;
+			font-weight: bold
+		}
+
+		.big {
+			font-family: "Liberation Sans", sans-serif;
+			font-size: 22pt;
+		}
+
+		.bold {
+			font-weight: bold;
+		}
+
+		.skills {
+			font-style: italic;
+		}
+
+		ul.responsibilities li:before{
+			content: "- ";
+			margin-right: 5px;
+		}
+
+		a:link {
+			color: #000080;
+			text-decoration: underline
+		}
+
+		ul {
+
+			margin-left: 0in;
+			margin-bottom: 0pt;
+			margin-top: 0in;
+			padding: 0;
+			list-style-type: none
+		}
+		li.experience{
+			margin-bottom: 6pt;
+		}
+	</style>
+</head>
+
+<body lang="en-US" dir="ltr">
+	<p class="centered">
+		<span class="big bold">{{ contact.full_name }}</span>
+	</p>
+	<p class="centered">
+		<span class="Contact_details"><a href="mailto:{{ contact.email }}">{{ contact.email }}</a> | {{ contact.phone }}
+			| {{ contact.location }}</span>
+	</p>
+	<hr>
+	<p class="centered">
+		<span class="bold">{{ contact.summary }}</span>
+	</p>
+	<h1 >Experience&nbsp;</h1>
+	<ul>
+		{% for experience in experiences %}
+		{% if experience.type == "Professional experience" %}
+		<li class="experience">
+			<span class="bold">{{ experience.position }}</span> at {% if experience.url %}<a href="{{ experience.url }}">{{
+				experience.organization }}</a>{% else %}{{ experience.organization }}{% endif %}, {{ experience.location }}, {{experience.startmonth
+			}}/{{experience.startyear }} {% if experience.end_year %} - {{ experience.end_month }}/{{ experience.end_year }} {% endif %}
+			<div>{{experience.organizationdetails}} - <span class="skills">{% for skill in experience.skills %}{{ skill }}{% if not loop.last %}, {% endif %}{% endfor %}</span></div> 
+			<ul class="responsibilities">
+				{% for responsibility in experience.responsibilities %}
+				<li>{{ responsibility }}</li>
+				{% endfor %}
+			</ul>
+		</li>
+		{% endif %}
+		{% endfor %} <br>
+	</ul>
+	<h1 >Personal projects</h1>
+	<ul>
+		{% for experience in experiences %}
+		{% if experience.type == "Personal projects" %}
+		<li class="experience">
+			<span class="bold">{% if experience.url %}<a href="{{ experience.url }}">{{
+				experience.organization }}</a>{% else %}{{ experience.organization }}{% endif %}</span>
+			<div>{{experience.organizationdetails}} - <span class="skills">{% for skill in experience.skills %}{{ skill }}{% if not loop.last %}, {% endif %}{% endfor %}</span></div> 
+			<ul class="responsibilities">
+				{% for responsibility in experience.responsibilities %}
+				<li>{{ responsibility }}</li>
+				{% endfor %}
+			</ul>
+		</li>
+		{% endif %}
+		{% endfor %} <br>
+	</ul>
+	<h1 >Education</h1>
+	<ul>
+		{% for experience in experiences %}
+		{% if experience.type == "Education" %}
+		<li class="experience">
+			<span class="bold">{{ experience.position }}</span> at <a href="{{ experience.url }}">{{
+				experience.organization }}</a>
+			<div>{{experience.organizationdetails}} </div>
+		</li>
+		{% endif %}
+		{% endfor %} <br>
+	</ul>
+	<h1 >Certifications</h1>
+	<ul>
+		{% for certification in certifications %}
+		<li>
+			<span class="bold">{{
+				certification.issuer }}</span>: {{
+					certification.certification }}
+		</li>
+		{% endfor %}
+	</ul>
+	<h1 >Languages</h1>
+	<ul>
+		{% for language in languages %}
+		<li>
+			<span class="bold">{{
+				language.language }}</span>: {{
+					language.proficiency }}
+		</li>
+		{% endfor %}
+	</ul>
+</body>
+
+</html>

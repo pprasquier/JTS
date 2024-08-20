@@ -1,0 +1,26 @@
+[
+    {
+        "point": "Define product vision and strategy",
+        "category": "Product",
+        "importancescore": 8,
+        "insights": []
+    },
+    {
+        "point": "Partner with M365 applications teams",
+        "category": "Industry",
+        "importancescore": 9,
+        "insights": []
+    },
+    {
+        "point": "Develop experience and platform investments",
+        "category": "Product",
+        "importancescore": 7,
+        "insights": []
+    },
+    {
+        "point": "Work with business planning and marketing teams",
+        "category": "Required skills",
+        "importancescore": 5,
+        "insights": []
+    }
+]
