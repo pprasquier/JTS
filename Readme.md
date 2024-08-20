@@ -158,7 +158,7 @@ Once salient points have been derived, AI will try to match them with insights f
 This process will generate a cover letter using the insights from Step 3. 
 
 ## Modify the cover letter with AI
-** Edit cover letter content with the help of AI ** will open a conversation with AI based on the current body of your cover letter. You'll then be able to tweak it with the help of AI.   
+`Edit cover letter content with the help of AI` will open a conversation with AI based on the current body of your cover letter. You'll then be able to tweak it with the help of AI.   
 
 ## Generate a cover letter PDF
 The processes above only generate the body of the cover letter, which you can manually update within the job's individual json file, available in `private\history` (field "cover_letter.current_body").
